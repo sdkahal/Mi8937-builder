@@ -17,7 +17,7 @@ jobs:
         run: |
           workflows=$(gh workflow list --json name -q '.[].name')
           for workflow in $workflows; do
-            run_ids=$(gh run list --workflow "$workflow" --json databaseId -q '.[1:].databaseId')
+            run_ids=$(gh run list --workflow "$workflow" --json databaseId --jq '.[1:].databaseId | .[]')
             for id in $run_ids; do
               gh run delete "$id"
             done
