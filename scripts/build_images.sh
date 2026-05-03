@@ -15,14 +15,11 @@ umount mnt
 
 # create root img
 truncate -s 1610612736 rootfs.raw
-mkfs.ext4 rootfs.raw
-mount rootfs.raw mnt
-tar xpf rootfs.tgz -C mnt --exclude='./boot/*' --exclude='./root/*' --exclude='./dev/*'
-
-# install gt
-#cp -a dist/* mnt
-
-umount mnt
+mkfs.f2fs rootfs.raw
+TEMP_DIR=$(mktemp -d)
+tar xpf rootfs.tgz -C $TEMP_DIR --exclude='./boot/*' --exclude='./root/*' --exclude='./dev/*'
+sload.f2fs -f $TEMP_DIR rootfs.raw
+rm -rf $TEMP_DIR
 
 # create sparse android images 
 img2simg rootfs.raw files/rootfs.bin

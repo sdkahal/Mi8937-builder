@@ -19,6 +19,7 @@ apt upgrade -qqy --with-new-pkgs
 apt install -qqy --no-install-recommends \
     build-essential \
     dnsmasq \
+    f2fs-tools \
     libconfig9 \
     libconfig-dev \
     libc6-dev \

@@ -9,6 +9,7 @@ apt install -y \
     cmake \
     debian-archive-keyring \
     debootstrap \
+    f2fs-tools \
     mmdebstrap \
     device-tree-compiler \
     fdisk \
