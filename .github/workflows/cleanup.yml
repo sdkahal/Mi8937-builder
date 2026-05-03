@@ -5,6 +5,9 @@ on:
     - cron: '0 3 * * *'  # 每天执行
   workflow_dispatch:
 
+permissions:
+  actions: write
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
