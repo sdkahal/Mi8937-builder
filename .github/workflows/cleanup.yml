@@ -1,24 +1,18 @@
-name: Cleanup
+name: Cleanup old runs
+
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 3 * * *'  # 每天执行
+  workflow_dispatch:
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Delete all but the latest run
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          workflows=$(gh workflow list --json name -q '.[].name')
-          for workflow in $workflows; do
-            run_ids=$(gh run list --workflow "$workflow" --json databaseId --jq '.[1:].databaseId | .[]')
-            for id in $run_ids; do
-              gh run delete "$id"
-            done
-          done
+      - name: Delete old workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: 5
