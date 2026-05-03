@@ -1,3 +1,9 @@
+name: Cleanup
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
