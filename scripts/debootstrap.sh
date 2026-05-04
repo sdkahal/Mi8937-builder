@@ -94,7 +94,8 @@ cp configs/hostapd.conf ${CHROOT}/etc/hostapd/
 cp configs/wifi-ap.sh ${CHROOT}/usr/sbin/
 chmod +x ${CHROOT}/usr/sbin/wifi-ap.sh
 
-cp -a scripts/msm-firmware-loader.sh ${CHROOT}/usr/sbin
+# Install firmware into rootfs
+cp -a firmware/* ${CHROOT}/lib/firmware/
 
 # install targz kernel
 wget https://github.com/sdkahal/Armbian-build/releases/download/v1/linux-6.19.5-msm8937-arm64.tar.gz
@@ -115,8 +116,6 @@ cp configs/extlinux.conf ${CHROOT}/boot/extlinux
 mkdir -p ${CHROOT}/boot/dtbs/qcom/
 cp dtbs/* ${CHROOT}/boot/dtbs/qcom/
 
-# create missing directory
-mkdir -p ${CHROOT}/lib/firmware/msm-firmware-loader
 
 # update fstab
 printf "PARTUUID=2fc3ff08-58af-3268-8d94-28ce07d79c0c\t/\tf2fs\trw,noatime\t0 1\n" > ${CHROOT}/etc/fstab
