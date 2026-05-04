@@ -14,7 +14,10 @@ tar xf rootfs.tgz -C mnt ./boot --exclude='./boot/linux.efi' --strip-components=
 umount mnt
 
 # create root img
-truncate -s 1610612736 rootfs.raw
+# Default 3GB (3221225472), override with ROOTFS_SIZE env var
+# Sparse output compresses empty space, so output file size stays small
+ROOTFS_SIZE=${ROOTFS_SIZE:-3221225472}
+truncate -s ${ROOTFS_SIZE} rootfs.raw
 mkfs.f2fs rootfs.raw
 TEMP_DIR=$(mktemp -d)
 tar xpf rootfs.tgz -C $TEMP_DIR --exclude='./boot/*' --exclude='./root/*' --exclude='./dev/*'
