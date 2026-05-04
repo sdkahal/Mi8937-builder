@@ -43,7 +43,6 @@ apt install -qqy --no-install-recommends \
     mobile-broadband-provider-info \
     iw \
     rfkill \
-    hostapd \
     initramfs-tools
 
 # install deb
@@ -98,14 +97,11 @@ systemctl enable NetworkManager || true
 systemctl enable systemd-resolved || true
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-# Ensure DHCP/DNS for USB and WIFI is active (for clients on br0)
+# Ensure DHCP/DNS for USB is active (for clients on br0)
 systemctl enable dnsmasq
 
 # Enable nftables
 systemctl enable nftables
-
-# Enable hostapd for WiFi AP
-systemctl enable hostapd
 
 # Make sure ModemManager is enabled for LTE
 systemctl enable ModemManager

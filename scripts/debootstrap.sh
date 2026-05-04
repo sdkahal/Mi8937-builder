@@ -88,12 +88,6 @@ chmod +x ${CHROOT}/etc/rc.local
 cp -a configs/msm8916-usb-gadget.sh ${CHROOT}/usr/sbin/
 cp configs/msm8916-usb-gadget.conf ${CHROOT}/etc/
 
-# setup WiFi AP with hostapd
-mkdir -p ${CHROOT}/etc/hostapd
-cp configs/hostapd.conf ${CHROOT}/etc/hostapd/
-cp configs/wifi-ap.sh ${CHROOT}/usr/sbin/
-chmod +x ${CHROOT}/usr/sbin/wifi-ap.sh
-
 # Install firmware into rootfs
 cp -a firmware/* ${CHROOT}/lib/firmware/
 
