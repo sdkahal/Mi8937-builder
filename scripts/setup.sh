@@ -70,10 +70,6 @@ EOD
 # Add user to sudo group
 usermod -aG sudo user
 
-# Fix home directory ownership and permissions
-chown user:user /home/user
-chmod 700 /home/user
-
 cat <<EOF >>/etc/bash.bashrc
 
 alias ls='ls --color=auto -lh'
