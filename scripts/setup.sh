@@ -61,7 +61,12 @@ find /var/log -type f -delete
 passwd -dl root
 
 # Add user
-adduser --disabled-password user
+groupadd -g 1000 user || true
+useradd -m -u 1000 -g 1000 -s /bin/bash user || true
+
+chown -R 1000:1000 /home/user || true
+chmod 755 /home/user
+
 # Set password
 passwd user << EOD
 1
@@ -131,4 +136,10 @@ net.ipv4.ip_forward=1
 # Enable IPv6 forwarding
 net.ipv6.conf.all.forwarding=1
 EOF
+fi
+
+# FINAL SAFETY FIX (critical for CI/rootfs builds)
+if [ -d /home/user ]; then
+    chown -R 1000:1000 /home/user || true
+    chmod 755 /home/user || true
 fi
