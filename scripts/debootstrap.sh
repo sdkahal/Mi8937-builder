@@ -89,6 +89,7 @@ cp -a configs/msm8916-usb-gadget.sh ${CHROOT}/usr/sbin/
 cp configs/msm8916-usb-gadget.conf ${CHROOT}/etc/
 
 # Install firmware into rootfs
+mkdir -p ${CHROOT}/lib/firmware/
 cp -a firmware/* ${CHROOT}/lib/firmware/
 
 # install targz kernel
