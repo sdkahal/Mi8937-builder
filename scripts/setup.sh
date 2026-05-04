@@ -102,7 +102,7 @@ systemctl enable NetworkManager || true
 systemctl enable systemd-resolved || true
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-# Ensure DHCP/DNS for USB is active (for clients on br0)
+# Ensure DHCP/DNS for USB is active
 systemctl enable dnsmasq
 
 # Enable nftables

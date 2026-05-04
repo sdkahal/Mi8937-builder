@@ -15,7 +15,7 @@ GADGET_PATH="/sys/kernel/config/usb_gadget/msm8916"
 : ${USB_DEVICE_VERSION:="0x0100"}
 : ${USB_MANUFACTURER:="MSM8916"}
 : ${USB_PRODUCT:="USB Gadget"}
-: ${NETWORK_BRIDGE:="br0"}
+: ${NETWORK_BRIDGE:=""}
 
 # Helper functions
 log() {
@@ -277,39 +277,23 @@ setup_gadget() {
 setup_network() {
     log "Configuring network interfaces"
 
-    # Wait up to 30s for bridge to exist (As NetworkManager is slower at creating it)
+    # Wait up to 30s for usb0 to appear
     max_wait=30
     waited=0
-    while ! ip link show "${NETWORK_BRIDGE}" >/dev/null 2>&1; do
+    while ! ip link show usb0 >/dev/null 2>&1; do
         if [ $waited -ge $max_wait ]; then
-            log "Warning: Bridge ${NETWORK_BRIDGE} does not exist after ${max_wait}s"
+            log "Warning: usb0 does not exist after ${max_wait}s"
             return
         fi
         sleep 1
         waited=$((waited + 1))
     done
 
-    # Add interfaces to bridge
-    if [ "${ENABLE_RNDIS}" = "1" ] && [ -f functions/rndis.usb0/ifname ]; then
-        rndis_if="$(cat functions/rndis.usb0/ifname)"
-        log "Adding ${rndis_if} to bridge ${NETWORK_BRIDGE}"
-        ip link set "${rndis_if}" up
-        ip link set "${rndis_if}" master "${NETWORK_BRIDGE}" || true
-    fi
-
-    if [ "${ENABLE_ECM}" = "1" ] && [ -f functions/ecm.usb0/ifname ]; then
-        ecm_if="$(cat functions/ecm.usb0/ifname)"
-        log "Adding ${ecm_if} to bridge ${NETWORK_BRIDGE}"
-        ip link set "${ecm_if}" up
-        ip link set "${ecm_if}" master "${NETWORK_BRIDGE}" || true
-    fi
-
-    if [ "${ENABLE_NCM}" = "1" ] && [ -f functions/ncm.usb0/ifname ]; then
-        ncm_if="$(cat functions/ncm.usb0/ifname)"
-        log "Adding ${ncm_if} to bridge ${NETWORK_BRIDGE}"
-        ip link set "${ncm_if}" up
-        ip link set "${ncm_if}" master "${NETWORK_BRIDGE}" || true
-    fi
+    # Assign IP directly to usb0
+    ip addr add 192.168.100.1/24 dev usb0 2>/dev/null || true
+    ip -6 addr add dead:beef::1/64 dev usb0 2>/dev/null || true
+    ip link set usb0 up
+    log "usb0 configured: 192.168.100.1/24"
 }
 
 teardown_gadget() {
@@ -338,12 +322,12 @@ teardown_gadget() {
     # Disable gadget
     echo "" > UDC || true
 
-    # Remove network interfaces from bridge
+    # Remove network interface IPs
     for func in functions/*/ifname; do
         if [ -f "${func}" ]; then
             iface="$(cat "${func}")"
-            ip link set "${iface}" nomaster || true
-            ip link set "${iface}" down || true
+            ip addr flush dev "${iface}" 2>/dev/null || true
+            ip link set "${iface}" down 2>/dev/null || true
         fi
     done
 
