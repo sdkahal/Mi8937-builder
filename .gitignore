@@ -1,10 +1,14 @@
 *.raw
-*.bin
 *.zip
-*.mbn
 *.tgz
 build
 dist
 files
 mnt
 rootfs
+
+# Allow firmware files with these extensions
+!firmware/
+!firmware/**/*.mbn
+!firmware/**/*.bin
+!firmware/**/*.zip
