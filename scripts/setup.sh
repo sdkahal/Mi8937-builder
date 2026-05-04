@@ -94,9 +94,7 @@ SystemMaxUse=300M
 SystemKeepFree=1G
 EOF
 
-# install dnsproxy (as a systemd service) and integrate with systemd-resolved
-bash /install_dnsproxy.sh systemd
-
+# Ensure DNS resolution works
 # Ensure NetworkManager and systemd-resolved are enabled and managing DNS (offline enable inside chroot)
 systemctl enable NetworkManager || true
 systemctl enable systemd-resolved || true

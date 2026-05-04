@@ -49,7 +49,6 @@ chmod 0600 ${CHROOT}/etc/NetworkManager/system-connections/*
 cp configs/99-custom.conf ${CHROOT}/etc/NetworkManager/conf.d/
 
 # chroot setup
-cp configs/install_dnsproxy.sh ${CHROOT}
 cp scripts/setup.sh ${CHROOT}
 
 # copy debs  setup.sh install
@@ -64,7 +63,6 @@ for a in proc sys dev/pts dev run; do
     umount ${CHROOT}/${a}
 done;
 
-rm ${CHROOT}/install_dnsproxy.sh
 rm -f ${CHROOT}/setup.sh
 echo -n > ${CHROOT}/root/.bash_history
 
