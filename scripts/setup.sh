@@ -18,21 +18,18 @@ apt update -qqy
 apt upgrade -qqy --with-new-pkgs
 apt install -qqy --no-install-recommends \
     build-essential \
-    dnsmasq \
     f2fs-tools \
     libconfig9 \
     libconfig-dev \
     libc6-dev \
     linux-libc-dev \
     locales \
-    modemmanager \
     netcat-openbsd \
     network-manager \
     openssh-server \
     sudo \
     systemd-timesyncd \
     tzdata \
-    wireguard-tools \
     wpasupplicant \
     bash-completion \
     curl \
@@ -40,10 +37,14 @@ apt install -qqy --no-install-recommends \
     zram-tools \
     bc \
     nftables \
-    mobile-broadband-provider-info \
     iw \
     rfkill \
     initramfs-tools
+
+# set locale
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+locale-gen
+update-locale LANG=en_US.UTF-8
 
 # install deb
 dpkg -i /root/*.deb
@@ -100,15 +101,8 @@ systemctl enable NetworkManager || true
 systemctl enable systemd-resolved || true
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-# Ensure DHCP/DNS for USB is active
-systemctl enable dnsmasq
-
 # Enable nftables
 systemctl enable nftables
-
-# Make sure ModemManager is enabled for LTE
-systemctl enable ModemManager
-systemctl enable rmtfs # unsure if needed i forgot why i added it. But builds take a long time so i don't want to remove it now
 
 # Time
 systemctl enable systemd-timesyncd
