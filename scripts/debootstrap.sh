@@ -2,7 +2,7 @@
 
 CHROOT=${CHROOT=$(pwd)/rootfs}
 RELEASE=${RELEASE=jammy}
-HOST_NAME=${HOST_NAME=mi8937}
+HOST_NAME=${HOST_NAME=land}
 
 rm -rf ${CHROOT}
 
@@ -14,10 +14,16 @@ mmdebstrap --arch=arm64 \
     ${RELEASE} ${CHROOT} http://ports.ubuntu.com/ubuntu-ports
 
 cat << EOF > ${CHROOT}/etc/apt/sources.list
-deb http://ports.ubuntu.com/ubuntu-ports ${RELEASE} main restricted universe multiverse
-deb http://ports.ubuntu.com/ubuntu-ports ${RELEASE}-updates main restricted universe multiverse
-deb http://ports.ubuntu.com/ubuntu-ports ${RELEASE}-security main restricted universe multiverse
-deb http://ports.ubuntu.com/ubuntu-ports ${RELEASE}-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-backports main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/ jammy-security main restricted universe multiverse
+# deb-src http://ports.ubuntu.com/ubuntu-ports/ jammy-security main restricted universe multiverse
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-proposed main restricted universe multiverse
+# # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-proposed main restricted universe multiverse
 EOF
 
 # Speed up apt
@@ -68,9 +74,6 @@ echo -n > ${CHROOT}/root/.bash_history
 
 echo ${HOST_NAME} > ${CHROOT}/etc/hostname
 sed -i "/localhost/ s/$/ ${HOST_NAME}/" ${CHROOT}/etc/hosts
-
-# setup dnsmasq
-cp -a configs/dhcp.conf ${CHROOT}/etc/dnsmasq.d/dhcp.conf
 
 # hosts entry for the LAN IP
 cat <<EOF >> ${CHROOT}/etc/hosts
