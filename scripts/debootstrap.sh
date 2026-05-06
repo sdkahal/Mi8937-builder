@@ -53,6 +53,7 @@ mkdir -p ${CHROOT}/etc/NetworkManager/conf.d
 cp configs/*.nmconnection ${CHROOT}/etc/NetworkManager/system-connections
 chmod 0600 ${CHROOT}/etc/NetworkManager/system-connections/*
 cp configs/99-custom.conf ${CHROOT}/etc/NetworkManager/conf.d/
+cp configs/default-wifi-powersave-on.conf ${CHROOT}/etc/NetworkManager/conf.d/
 
 # chroot setup
 cp scripts/setup.sh ${CHROOT}
