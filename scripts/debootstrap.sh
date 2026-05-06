@@ -82,10 +82,6 @@ cat <<EOF >> ${CHROOT}/etc/hosts
 192.168.100.1	${HOST_NAME}
 EOF
 
-# add rc-local
-cp -a configs/rc.local ${CHROOT}/etc/rc.local
-chmod +x ${CHROOT}/etc/rc.local
-
 # add MSM8916 USB gadget
 cp -a configs/msm8916-usb-gadget.sh ${CHROOT}/usr/sbin/
 cp configs/msm8916-usb-gadget.conf ${CHROOT}/etc/
