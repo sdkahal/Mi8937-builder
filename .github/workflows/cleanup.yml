@@ -17,8 +17,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
+
           retain_days: 0
           keep_minimum_runs: 0
+
           delete_workflow_pattern: ".*"
-          delete_workflow_pattern_type: regex
-          conclusion: completed
+
+          delete_workflow_by_state_pattern: completed
+
+          delete_run_by_conclusion_pattern: success|failure|cancelled
