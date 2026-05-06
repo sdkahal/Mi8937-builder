@@ -8,3 +8,4 @@ DHCPServer=yes
 [DHCPServer]
 PoolOffset=10
 PoolSize=20
+DNS=192.168.100.1
