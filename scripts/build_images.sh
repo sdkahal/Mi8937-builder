@@ -10,8 +10,7 @@ mkdir -p files mnt
 truncate -s 66060288 boot.raw
 mkfs.ext2 boot.raw
 mount boot.raw mnt
-tar xf rootfs.tgz -C mnt ./boot --exclude='./boot/linux.efi' --exclude='./boot/dtbs/*' --strip-components=2
-tar xf rootfs.tgz -C mnt --wildcards '*/msm8937-xiaomi-land.dtb' --strip-components=2
+tar xf rootfs.tgz -C mnt ./boot --exclude='./boot/linux.efi' --strip-components=2
 umount mnt
 
 # create root img
