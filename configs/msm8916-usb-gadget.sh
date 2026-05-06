@@ -289,11 +289,9 @@ setup_network() {
         waited=$((waited + 1))
     done
 
-    # Assign IP directly to usb0
-    ip addr add 192.168.100.1/24 dev usb0 2>/dev/null || true
-    ip -6 addr add dead:beef::1/64 dev usb0 2>/dev/null || true
+    # Up usb0
     ip link set usb0 up
-    log "usb0 configured: 192.168.100.1/24"
+    log "usb0 link is up, waiting for systemd-networkd to assign IP"
 }
 
 teardown_gadget() {
