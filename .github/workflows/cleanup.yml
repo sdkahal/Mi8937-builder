@@ -7,20 +7,17 @@ on:
 
 permissions:
   actions: write
+  contents: read
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
       - name: Delete all completed workflow runs
-        uses: Mattraks/delete-workflow-runs@v2
+        uses: Mattraks/delete-workflow-runs@v2.1.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           repository: ${{ github.repository }}
-
           retain_days: 0
           keep_minimum_runs: 0
-
-          delete_workflow_pattern: ".*"
-
-          delete_run_by_conclusion_pattern: success|failure|cancelled
+          delete_run_by_conclusion_pattern: success,cancelled,failure
