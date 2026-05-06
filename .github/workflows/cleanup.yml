@@ -23,6 +23,4 @@ jobs:
 
           delete_workflow_pattern: ".*"
 
-          delete_workflow_by_state_pattern: completed
-
           delete_run_by_conclusion_pattern: success|failure|cancelled
