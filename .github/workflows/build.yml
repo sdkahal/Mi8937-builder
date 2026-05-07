@@ -2,6 +2,11 @@ name: Build
 
 on:
   workflow_dispatch:
+    inputs:
+      kernel_url:
+        description: 'Kernel tar.gz download URL'
+        required: false
+        default: 'https://github.com/sdkahal/Armbian-build/releases/download/v2/linux-7.0.2-msm8937-arm64.tar.gz'
   push:
     branches:
       - '**'
@@ -51,6 +56,8 @@ jobs:
         run: sudo sh -e scripts/install_deps.sh
 
       - name: Create rootfs
+        env:
+          KERNEL_URL: ${{ inputs.kernel_url }}
         run: sudo sh -e scripts/debootstrap.sh
 
       - name: Create images
