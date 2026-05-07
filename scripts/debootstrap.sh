@@ -93,8 +93,9 @@ mkdir -p ${CHROOT}/lib/firmware/
 cp -a firmware/* ${CHROOT}/lib/firmware/
 
 # install targz kernel
-wget https://github.com/sdkahal/Armbian-build/releases/download/v2/linux-7.0.2-msm8937-arm64.tar.gz
-tar -xzf linux-7.0.2-msm8937-arm64.tar.gz -C ${CHROOT}/root/ 2>/dev/null
+KERNEL_FILE=$(basename "${KERNEL_URL}")
+wget "${KERNEL_URL}"
+tar -xzf "${KERNEL_FILE}" -C ${CHROOT}/root/ 2>/dev/null
 mkdir -p ${CHROOT}/boot/
 cp -rfpa ${CHROOT}/root/boot/* ${CHROOT}/boot/
 mkdir -p ${CHROOT}/usr/lib/modules/
