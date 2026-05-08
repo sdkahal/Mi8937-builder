@@ -58,7 +58,7 @@ jobs:
       - name: Create rootfs
         env:
           KERNEL_URL: ${{ inputs.kernel_url }}
-        run: sudo sh -e scripts/debootstrap.sh
+        run: sudo -E sh -e scripts/debootstrap.sh
 
       - name: Create images
         run: sudo sh -e scripts/build_images.sh
