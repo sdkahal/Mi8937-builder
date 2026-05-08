@@ -24,6 +24,7 @@ apt install -qqy --no-install-recommends \
     libc6-dev \
     linux-libc-dev \
     locales \
+    modemmanager \
     netcat-openbsd \
     network-manager \
     openssh-server \
@@ -37,6 +38,7 @@ apt install -qqy --no-install-recommends \
     zram-tools \
     bc \
     nftables \
+    mobile-broadband-provider-info \
     iw \
     rfkill \
     initramfs-tools
@@ -103,6 +105,10 @@ ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 # Enable nftables
 systemctl enable nftables
+
+# Make sure ModemManager is enabled for LTE
+systemctl enable ModemManager
+systemctl enable rmtfs
 
 # Time
 systemctl enable systemd-timesyncd
